@@ -6,7 +6,7 @@ OBJ_DIR = obj/
 
 #complier 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
 SRCBASE = main

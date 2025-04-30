@@ -35,6 +35,39 @@ there must be between 1 and %s philosophers.\n"
 # define STR_ERR_MUTEX	"%s Error: Could not create mutex.\n"
 
 
+typedef struct s_table
+{
+    time_t start_time;
+    unsigned int nb_philo;
+    time_t time_to_die;
+    time_t time_to_eat;
+    time_t time_to_sleep;
+    int must_eat_count;
+    pthread_mutex_t *forks;
+    pthread_mutex_t print_lock;
+    bool sim_stop;
+    t_philo **phios;
+    
+} t_table;
+
+typedef struct s_philo
+{
+    pthread_t philo;
+    unsigned int id;
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
+    int eat_count;
+    t_table *table;
+
+} t_philo;
+
+
+
+// parsing.c
+bool is_valid_input(int argc, char**argv, int *vars);
+int unsigned_atoi(char *str);
+int dis_msg(char *str, char *detail, int exit_no);
+
 
 
 # endif 
