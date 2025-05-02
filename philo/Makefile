@@ -9,7 +9,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
-SRCBASE = main
+SRCBASE = main free init parsing
 SRC = $(addsuffix .c, $(addprefix srcs/, $(SRCBASE)))
 
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)%.o)

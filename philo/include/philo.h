@@ -34,6 +34,7 @@ there must be between 1 and %s philosophers.\n"
 # define STR_ERR_MALLOC	"%s Error: Could not allocate memory.\n"
 # define STR_ERR_MUTEX	"%s Error: Could not create mutex.\n"
 
+typedef struct s_philo t_philo;
 
 typedef struct s_table
 {
@@ -46,8 +47,7 @@ typedef struct s_table
     pthread_mutex_t *forks;
     pthread_mutex_t print_lock;
     bool sim_stop;
-    t_philo **phios;
-    
+    t_philo **philos;
 } t_table;
 
 typedef struct s_philo
@@ -68,7 +68,17 @@ bool is_valid_input(int argc, char**argv, int *vars);
 int unsigned_atoi(char *str);
 int dis_msg(char *str, char *detail, int exit_no);
 
+// init.c 
+t_philo **init_philos(t_table *table);
+pthread_mutex_t *init_fork(unsigned int nb_philo);
+bool create_global_mutex(t_table *table);
+t_table *init_table(int vars[]);
 
+
+
+// free.c
+void free_philos(t_table *table, unsigned int j);
+void free_table(t_table *table);
 
 # endif 
 
