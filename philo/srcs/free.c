@@ -43,3 +43,17 @@ void free_table(t_table *table)
     free(table);
     return ;
 }
+
+void stop_simulation(t_table *table)
+{
+    unsigned int i;
+
+    i = 0;
+    while(i < table->nb_philo)
+    {
+        pthread_join(table->philos[i]->philo, NULL);
+        i++;
+    }
+    free_table(table);
+
+}

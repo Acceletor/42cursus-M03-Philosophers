@@ -83,6 +83,7 @@ t_table *init_table(int vars[]);
 void free_philos(t_table *table, unsigned int j);
 void	destroy_forks(t_table *table, unsigned int j);
 void free_table(t_table *table);
+void stop_simulation(t_table *table);
 
 # endif 
 
