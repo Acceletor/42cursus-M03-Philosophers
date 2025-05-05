@@ -1,5 +1,25 @@
 #include "../include/philo.h"
 
+
+static t_philo *alloc_one_philo(t_table *table, unsigned int i)
+{
+    t_philo *philo;
+
+    philo = malloc(sizeof(t_philo));
+    if (!philo)
+    {
+        return (NULL);
+    }
+    philo->philo = NULL;
+    philo->id = i;
+    philo->left_fork = NULL;
+    philo->right_fork = NULL;
+    philo->eat_count = 0;
+    philo->table = table;
+    return (philo);
+}
+
+
 t_philo **init_philos(t_table *table)
 {
     t_philo **philos;
@@ -14,18 +34,12 @@ t_philo **init_philos(t_table *table)
     i = 0;
     while (i < table->nb_philo)
     {
-        philos[i] = malloc(sizeof(t_philo));
+        philos[i] = alloc_one_philo(table, i);
         if (!philos[i])
         {
             free_philos(table, i);
             dis_msg(STR_ERR_MALLOC, NULL, EXIT_FAILURE);
         }
-        philos[i]->philo = NULL;
-        philos[i]->id = i;
-        philos[i]->left_fork = NULL;
-        philos[i]->right_fork = NULL;
-        philos[i]->eat_count = 0;
-        philos[i]->table = table;
         i++;
     }
     return (philos);
