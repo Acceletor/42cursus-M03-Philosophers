@@ -47,6 +47,7 @@ typedef struct s_table
     pthread_mutex_t *forks;
     pthread_mutex_t print_lock;
     bool			mutex_initialized;
+    pthread_t monitor_thread;
     bool sim_stop;
     t_philo **philos;
 } t_table;
@@ -57,6 +58,7 @@ typedef struct s_philo
     unsigned int id;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
+    time_t lastmeal;
     int eat_count;
     t_table *table;
 

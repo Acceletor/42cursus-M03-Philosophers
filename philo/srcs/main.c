@@ -1,10 +1,41 @@
 #include "../include/philo.h"
 
-// bool start_simulation(t_table *table)
+time_t get_time_in_ms(void)
+{
+    struct timeval tv;
+    
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+// void *routine (void *arg)
 // {
-//     // You must implement or remove this declaration if unused.
-//     return (true);
+//     t_philo *philo = (t_philo *)arg;
+    
+//     return (NULL);
 // }
+
+
+bool start_simulation(t_table *table)
+{
+    // unsigned int i;
+
+    table->start_time = get_time_in_ms();
+    printf("Start time: %lu\n", table->start_time);
+    // i = 0;
+    // while(i < table->nb_philo)
+    // {
+    //     if (pthread_create(&table->philos[i]->philo, NULL, routine, table->philos[i]) != 0)
+    //     {
+    //         while (i-- > 0)
+    //             pthread_join(table->philos[i]->philo, NULL);
+    //         return (false);
+    //     }
+    //     i++;
+    // }
+
+    return (true);
+}
 
 
 int main(int argc, char **argv)
@@ -18,7 +49,11 @@ int main(int argc, char **argv)
     table = init_table(vars);
     if (!table)
         return (EXIT_FAILURE);
-    // start_simulation(table);
+    if (!start_simulation(table))
+    {
+        free_table(table);
+        dis_msg(STR_ERR_THREAD, NULL, EXIT_FAILURE);
+    }
     free_table(table);
 
 

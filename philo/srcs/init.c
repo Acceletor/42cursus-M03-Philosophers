@@ -82,7 +82,19 @@ bool create_global_mutex(t_table *table)
     table->mutex_initialized = true;
     return (true);
 }
+void assign_forks(t_table *table)
+{
+    unsigned int i;
 
+    i = 0;
+    while (i < table->nb_philo)
+    {
+        table->philos[i]->left_fork = &table->forks[i];
+        table->philos[i]->right_fork = &table->forks[(i + 1)% table->nb_philo];
+
+        i++;
+    }
+}
 
 t_table *init_table(int vars[])
 {
@@ -99,5 +111,6 @@ t_table *init_table(int vars[])
     table->sim_stop = false;
     table->philos = init_philos(table);
     create_global_mutex(table);
+    assign_forks(table);
     return (table);
 }
