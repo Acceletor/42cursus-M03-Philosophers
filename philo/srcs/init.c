@@ -10,7 +10,7 @@ static t_philo *alloc_one_philo(t_table *table, unsigned int i)
     {
         return (NULL);
     }
-    philo->philo = NULL;
+    // philo->philo = 0;
     philo->id = i;
     philo->left_fork = NULL;
     philo->right_fork = NULL;
@@ -45,19 +45,27 @@ t_philo **init_philos(t_table *table)
     return (philos);
 }
 
-pthread_mutex_t *init_fork(unsigned int nb_philo)
+pthread_mutex_t *init_fork(unsigned int nb_philo, t_table *table)
 {
     pthread_mutex_t *forks;
     unsigned int i;
     
     forks = malloc(sizeof(pthread_mutex_t) * nb_philo);
     if (!forks)
-        dis_msg(STR_ERR_MALLOC, NULL, EXIT_FAILURE);
+    {
+        free_table(table);
+        dis_msg(STR_ERR_MALLOC, NULL, EXIT_FAILURE); 
+    }
+        
     i = 0;
     while(i < nb_philo)
     {
         if (pthread_mutex_init(&forks[i], NULL) != 0)
+        {
+            destroy_forks(table, i);
+            free_table(table);
             dis_msg(STR_ERR_MUTEX, NULL, EXIT_FAILURE);
+        } 
         i++;
     }
     return (forks);
@@ -65,9 +73,13 @@ pthread_mutex_t *init_fork(unsigned int nb_philo)
 
 bool create_global_mutex(t_table *table)
 {
-    table->forks = init_fork(table->nb_philo);
+    table->forks = init_fork(table->nb_philo, table);
     if (pthread_mutex_init(&table->print_lock, NULL) != 0)
+    {
+        free_table(table);
         dis_msg(STR_ERR_MUTEX, NULL, EXIT_FAILURE);
+    }
+    table->mutex_initialized = true;
     return (true);
 }
 

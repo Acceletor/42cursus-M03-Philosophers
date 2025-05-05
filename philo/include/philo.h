@@ -46,6 +46,7 @@ typedef struct s_table
     int must_eat_count;
     pthread_mutex_t *forks;
     pthread_mutex_t print_lock;
+    bool			mutex_initialized;
     bool sim_stop;
     t_philo **philos;
 } t_table;
@@ -70,7 +71,7 @@ int dis_msg(char *str, char *detail, int exit_no);
 
 // init.c 
 t_philo **init_philos(t_table *table);
-pthread_mutex_t *init_fork(unsigned int nb_philo);
+pthread_mutex_t *init_fork(unsigned int nb_philo, t_table *table);
 bool create_global_mutex(t_table *table);
 t_table *init_table(int vars[]);
 
@@ -78,6 +79,7 @@ t_table *init_table(int vars[]);
 
 // free.c
 void free_philos(t_table *table, unsigned int j);
+void	destroy_forks(t_table *table, unsigned int j);
 void free_table(t_table *table);
 
 # endif 
