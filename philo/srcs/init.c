@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 11:49:26 by ksuebtha          #+#    #+#             */
+/*   Updated: 2025/05/07 12:44:44 by ksuebtha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 
-static t_philo *alloc_one_philo(t_table *table, unsigned int i)
+static t_philo  *alloc_one_philo(t_table *table, unsigned int i)
 {
     t_philo *philo;
 

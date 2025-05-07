@@ -1,13 +1,25 @@
-# ifndef PHILO_H
-#  define PHILO_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 11:49:40 by ksuebtha          #+#    #+#             */
+/*   Updated: 2025/05/07 11:58:57 by ksuebtha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <limits.h>
-#include <sys/time.h>
-#include <stdbool.h>
+#ifndef PHILO_H
+# define PHILO_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <limits.h>
+# include <sys/time.h>
+# include <stdbool.h>
 
 /******************************************************************************
 *                                     Macros                                  *
@@ -34,56 +46,52 @@ there must be between 1 and %s philosophers.\n"
 # define STR_ERR_MALLOC	"%s Error: Could not allocate memory.\n"
 # define STR_ERR_MUTEX	"%s Error: Could not create mutex.\n"
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
-    time_t start_time;
-    unsigned int nb_philo;
-    time_t time_to_die;
-    time_t time_to_eat;
-    time_t time_to_sleep;
-    int must_eat_count;
-    pthread_mutex_t *forks;
-    pthread_mutex_t print_lock;
-    bool			mutex_initialized;
-    pthread_t monitor_thread;
-    bool sim_stop;
-    t_philo **philos;
-} t_table;
+	time_t			start_time;
+	unsigned int	nb_philo;
+	time_t			time_to_die;
+	time_t			time_to_eat;
+	time_t			time_to_sleep;
+	int				must_eat_count;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_lock;
+	bool			mutex_initialized;
+	pthread_t		monitor_thread;
+	bool			sim_stop;
+	t_philo			**philos;
+}					t_table;
 
 typedef struct s_philo
 {
-    pthread_t philo;
-    unsigned int id;
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
-    time_t lastmeal;
-    int eat_count;
-    t_table *table;
+	pthread_t		philo;
+	unsigned int	id;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	time_t			lastmeal;
+	int				eat_count;
+	t_table			*table;
 
-} t_philo;
-
-
+}					t_philo;
 
 // parsing.c
-bool is_valid_input(int argc, char**argv, int *vars);
-int unsigned_atoi(char *str);
-int dis_msg(char *str, char *detail, int exit_no);
+bool			is_valid_input(int argc, char**argv, int *vars);
+int				unsigned_atoi(char *str);
+int				dis_msg(char *str, char *detail, int exit_no);
 
 // init.c 
-t_philo **init_philos(t_table *table);
-pthread_mutex_t *init_fork(unsigned int nb_philo, t_table *table);
-bool create_global_mutex(t_table *table);
-t_table *init_table(int vars[]);
-
-
+t_philo			**init_philos(t_table *table);
+pthread_mutex_t	*init_fork(unsigned int nb_philo, t_table *table);
+bool			create_global_mutex(t_table *table);
+t_table			*init_table(int vars[]);
 
 // free.c
-void free_philos(t_table *table, unsigned int j);
-void	destroy_forks(t_table *table, unsigned int j);
-void free_table(t_table *table);
-void stop_simulation(t_table *table);
+void			free_philos(t_table *table, unsigned int j);
+void			destroy_forks(t_table *table, unsigned int j);
+void			free_table(t_table *table);
+void			stop_simulation(t_table *table);
 
-# endif 
+#endif
 
