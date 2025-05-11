@@ -95,5 +95,28 @@ void			destroy_forks(t_table *table, unsigned int j);
 void			free_table(t_table *table);
 void			stop_simulation(t_table *table);
 
+//philosopher.c
+void take_forks(t_philo *philo);
+void eat(t_philo *philo);
+void drop_forks(t_philo *philo);
+void philo_sleep(t_philo *philo);
+void *philo_routine (void *arg);
+
+//monitor_thread.c
+void *monitor_routine (void *arg);
+
+//utils.c
+time_t get_time_in_ms(void);
+void print_action(t_philo *philo, char *msg);
+bool has_sim_stopped(t_table *table);
+void set_sim_stop_flag(t_table *table, bool state);
+
+
+//main.c
+time_t get_time_in_ms(void);
+void print_action(t_philo *philo, char *msg);
+bool has_sim_stopped(t_table *table);
+bool start_simulation(t_table *table);
+
 #endif
 

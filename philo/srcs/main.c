@@ -12,33 +12,17 @@
 
 #include "../include/philo.h"
 
-time_t get_time_in_ms(void)
-{
-    struct timeval tv;
-    
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void *routine (void *arg)
-{
-    t_philo *philo = (t_philo *)arg;
-    printf("%d\n", philo->id);
-
-    return (NULL);
-}
-
 
 bool start_simulation(t_table *table)
 {
     unsigned int i;
 
     table->start_time = get_time_in_ms();
-    printf("Start time: %lu\n", table->start_time);
     i = 0;
     while(i < table->nb_philo)
     {
-        if (pthread_create(&table->philos[i]->philo, NULL, routine, table->philos[i]) != 0)
+        table->philos[i]->lastmeal = table->start_time;
+        if (pthread_create(&table->philos[i]->philo, NULL, &philo_routine, table->philos[i]) != 0)
         {
             while (i-- > 0)
                 pthread_join(table->philos[i]->philo, NULL);
@@ -46,7 +30,11 @@ bool start_simulation(t_table *table)
         }
         i++;
     }
-
+    if (pthread_create(&table->monitor_thread, NULL,&monitor_routine, table) != 0)
+    {
+        table->sim_stop = true;
+        return (false);
+    }
     return (true);
 }
 
@@ -64,11 +52,13 @@ int main(int argc, char **argv)
         return (EXIT_FAILURE);
     if (!start_simulation(table))
     {
-        free_table(table);
+        if (table->sim_stop)
+            stop_simulation(table);
+        else
+            free_table(table);
         dis_msg(STR_ERR_THREAD, NULL, EXIT_FAILURE);
     }
     stop_simulation(table);
-
 
     return (EXIT_SUCCESS);
 }

@@ -53,9 +53,10 @@ void stop_simulation(t_table *table)
     i = 0;
     while(i < table->nb_philo)
     {
-        pthread_join(table->philos[i]->philo, NULL);
+        if (table->philos[i]->philo)
+            pthread_join(table->philos[i]->philo, NULL);
         i++;
     }
+    pthread_join(table->monitor_thread, NULL);
     free_table(table);
-
 }

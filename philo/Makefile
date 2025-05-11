@@ -9,7 +9,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
-SRCBASE = main free init parsing
+SRCBASE = main free init parsing philosopher monitor_thread utils
 SRC = $(addsuffix .c, $(addprefix srcs/, $(SRCBASE)))
 
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)%.o)
