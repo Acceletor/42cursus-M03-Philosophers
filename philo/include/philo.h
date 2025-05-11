@@ -58,7 +58,9 @@ typedef struct s_table
 	int				must_eat_count;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
-	bool			mutex_initialized;
+    pthread_mutex_t sim_stop_lock;
+	bool			print_lock_init;
+    bool            sim_stop_lock_init;
 	pthread_t		monitor_thread;
 	bool			sim_stop;
 	t_philo			**philos;

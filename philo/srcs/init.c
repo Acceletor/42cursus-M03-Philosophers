@@ -91,7 +91,13 @@ bool create_global_mutex(t_table *table)
         free_table(table);
         dis_msg(STR_ERR_MUTEX, NULL, EXIT_FAILURE);
     }
-    table->mutex_initialized = true;
+    table->print_lock_init = true;
+    if (pthread_mutex_init(&table->sim_stop_lock, NULL) != 0)
+    {
+        free_table(table);
+        dis_msg(STR_ERR_MUTEX, NULL, EXIT_FAILURE);
+    }
+    table->sim_stop_lock_init = true;
     return (true);
 }
 void assign_forks(t_table *table)
@@ -103,7 +109,6 @@ void assign_forks(t_table *table)
     {
         table->philos[i]->left_fork = &table->forks[i];
         table->philos[i]->right_fork = &table->forks[(i + 1)% table->nb_philo];
-
         i++;
     }
 }
@@ -121,6 +126,8 @@ t_table *init_table(int vars[])
     table->time_to_sleep = vars[3];
     table->must_eat_count = vars[4];
     table->sim_stop = false;
+    table->print_lock_init = false;
+    table->sim_stop_lock_init = false;
     table->philos = init_philos(table);
     create_global_mutex(table);
     assign_forks(table);
