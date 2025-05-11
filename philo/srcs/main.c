@@ -58,7 +58,7 @@ int main(int argc, char **argv)
             free_table(table);
         dis_msg(STR_ERR_THREAD, NULL, EXIT_FAILURE);
     }
+    pthread_join(table->monitor_thread, NULL);
     stop_simulation(table);
-
     return (EXIT_SUCCESS);
 }
