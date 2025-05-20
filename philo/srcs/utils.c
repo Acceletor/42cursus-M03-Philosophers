@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:22:32 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/20 15:23:53 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:40:58 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,18 @@ time_t	get_time_in_ms(void)
 
 void	print_action(t_philo *philo, char *msg)
 {
-	pthread_mutex_lock(&philo->table->print_lock);
-	if (!philo->table->sim_stop)
+	bool	stopped;
+
+	pthread_mutex_lock(&philo->table->sim_stop_lock);
+	stopped = philo->table->sim_stop;
+	pthread_mutex_unlock(&philo->table->sim_stop_lock);
+	if (!stopped)
+	{
+		pthread_mutex_lock(&philo->table->print_lock);
 		printf("%lu %d %s\n", get_time_in_ms() - philo->table->start_time,
 			philo->id + 1, msg);
-	pthread_mutex_unlock(&philo->table->print_lock);
+		pthread_mutex_unlock(&philo->table->print_lock);
+	}
 }
 
 bool	has_sim_stopped(t_table *table)

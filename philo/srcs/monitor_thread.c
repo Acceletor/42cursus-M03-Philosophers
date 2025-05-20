@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:31:14 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/20 15:34:39 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:49:53 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	*monitor_routine(void *arg)
 {
 	t_table			*table;
 	time_t			now;
+	time_t			last;
 	unsigned int	i;
 	unsigned int	full_count;
 
@@ -33,13 +34,17 @@ void	*monitor_routine(void *arg)
 				return (NULL);
 			}
 			now = get_time_in_ms();
-			if (now - table->philos[i]->lastmeal > table->time_to_die)
+			last = table->philos[i]->lastmeal;
+			pthread_mutex_unlock(&table->sim_stop_lock);
+			if (now - last > table->time_to_die)
 			{
-				print_action(table->philos[i], "died" );
+				print_action(table->philos[i], "died");
+				pthread_mutex_lock(&table->sim_stop_lock);
 				table->sim_stop = true;
 				pthread_mutex_unlock(&table->sim_stop_lock);
 				return (NULL);
 			}
+			pthread_mutex_lock(&table->sim_stop_lock);
 			if (table->must_eat_count != -1
 				&& table->philos[i]->eat_count >= table->must_eat_count)
 				full_count++;
