@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosopher.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 15:20:17 by ksuebtha          #+#    #+#             */
+/*   Updated: 2025/05/20 15:41:42 by ksuebtha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 /*  Goal of the philo_routine 
@@ -9,52 +21,53 @@ Each philosopher thread simulate the following action:
 5. Repeat until simulation stop (someone dies or all are full)
 */
 
-void take_forks(t_philo *philo)
+void	take_forks(t_philo *philo)
 {
-    pthread_mutex_lock(philo->left_fork);
-    print_action(philo, "has taken a fork");
-    pthread_mutex_lock(philo->right_fork);
-    print_action(philo, "has taken a fork");
+	pthread_mutex_lock(philo->left_fork);
+	print_action(philo, "has taken a fork");
+	pthread_mutex_lock(philo->right_fork);
+	print_action(philo, "has taken a fork");
 }
 
-void eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
-    pthread_mutex_lock(&philo->table->sim_stop_lock);
-    philo->lastmeal = get_time_in_ms();
-    pthread_mutex_unlock(&philo->table->sim_stop_lock);
-    print_action(philo, "is eating");
-    usleep(philo->table->time_to_eat * 1000);
-    philo->eat_count++;
+	pthread_mutex_lock(&philo->table->sim_stop_lock);
+	philo->lastmeal = get_time_in_ms();
+	pthread_mutex_unlock(&philo->table->sim_stop_lock);
+	print_action(philo, "is eating");
+	usleep(philo->table->time_to_eat * 1000);
+	philo->eat_count++;
 }
 
-void drop_forks(t_philo *philo)
+void	drop_forks(t_philo *philo)
 {
-    pthread_mutex_unlock(philo->right_fork);
-    pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }
 
-void philo_sleep(t_philo *philo)
+void	philo_sleep(t_philo *philo)
 {
-    print_action(philo, "is sleeping");
-    usleep(philo->table->time_to_sleep * 1000);
+	print_action(philo, "is sleeping");
+	usleep(philo->table->time_to_sleep * 1000);
 }
 
-void    *philo_routine(void *arg)
+void	*philo_routine(void *arg)
 {
-    t_philo *philo = (t_philo *)arg;
-    
-    if(philo->id % 2 == 0)
-        usleep(1000); 
-    print_action(philo, "is thinking");
-    while(!has_sim_stopped(philo->table))
-    {
-        take_forks(philo);
-        eat(philo);
-        drop_forks(philo);
-        philo_sleep(philo);
-        print_action(philo, "is thinking");
-    }
-    return (NULL);
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	print_action(philo, "is thinking");
+	while (!has_sim_stopped(philo->table))
+	{
+		take_forks(philo);
+		eat(philo);
+		drop_forks(philo);
+		philo_sleep(philo);
+		print_action(philo, "is thinking");
+	}
+	return (NULL);
 }
 
 

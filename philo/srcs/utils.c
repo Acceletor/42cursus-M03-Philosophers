@@ -1,27 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 15:22:32 by ksuebtha          #+#    #+#             */
+/*   Updated: 2025/05/20 15:23:53 by ksuebtha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-time_t get_time_in_ms(void)
+time_t	get_time_in_ms(void)
 {
-    struct timeval tv;
-    
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void print_action(t_philo *philo, char *msg)
+void	print_action(t_philo *philo, char *msg)
 {
-    pthread_mutex_lock(&philo->table->print_lock);
-    if (!philo->table->sim_stop)
-        printf("%lu %d %s\n", get_time_in_ms() - philo->table->start_time, philo->id + 1, msg);
-    pthread_mutex_unlock(&philo->table->print_lock);
+	pthread_mutex_lock(&philo->table->print_lock);
+	if (!philo->table->sim_stop)
+		printf("%lu %d %s\n", get_time_in_ms() - philo->table->start_time,
+			philo->id + 1, msg);
+	pthread_mutex_unlock(&philo->table->print_lock);
 }
 
-bool has_sim_stopped(t_table *table)
+bool	has_sim_stopped(t_table *table)
 {
-    bool result;
+	bool	result;
 
-    pthread_mutex_lock(&table->sim_stop_lock);
-    result = table->sim_stop;
-    pthread_mutex_unlock(&table->sim_stop_lock);
-    return (result);
+	pthread_mutex_lock(&table->sim_stop_lock);
+	result = table->sim_stop;
+	pthread_mutex_unlock(&table->sim_stop_lock);
+	return (result);
 }

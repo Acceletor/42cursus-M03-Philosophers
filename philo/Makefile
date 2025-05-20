@@ -5,7 +5,7 @@ INC = -I ./include/
 OBJ_DIR = obj/
 
 #complier 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
