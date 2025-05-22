@@ -110,6 +110,7 @@ time_t get_time_in_ms(void);
 void print_action(t_philo *philo, char *msg);
 bool has_sim_stopped(t_table *table);
 void set_sim_stop_flag(t_table *table, bool state);
+void precise_sleep_until(time_t deadline_ms, t_table *table);
 
 
 //main.c

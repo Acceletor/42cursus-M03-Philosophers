@@ -47,13 +47,14 @@ void	take_forks(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->sim_stop_lock);
-	philo->lastmeal = get_time_in_ms();
-	philo->eat_count++;
-	pthread_mutex_unlock(&philo->table->sim_stop_lock);
+	t_table *table = philo->table;
 
-	print_action(philo, "is eating");
-	usleep(philo->table->time_to_eat * 1000);
+    pthread_mutex_lock(&table->sim_stop_lock);
+    philo->lastmeal  = get_time_in_ms();
+    philo->eat_count += 1;
+    pthread_mutex_unlock(&table->sim_stop_lock);
+    print_action(philo, "is eating");
+    precise_sleep_until(philo->lastmeal + table->time_to_eat, table);
 
 }
 
@@ -66,7 +67,8 @@ void	drop_forks(t_philo *philo)
 void	philo_sleep(t_philo *philo)
 {
 	print_action(philo, "is sleeping");
-	usleep(philo->table->time_to_sleep * 1000);
+    time_t wakeup = get_time_in_ms() + philo->table->time_to_sleep;
+    precise_sleep_until(wakeup, philo->table);
 }
 
 void	*philo_routine(void *arg)
@@ -74,11 +76,21 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->table->nb_philo == 1)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		print_action(philo, "has taken a fork");
+		// while (!has_sim_stopped(philo->table))
+		// 	usleep(1000);
+		pthread_mutex_unlock(philo->left_fork);
+		return (NULL);
+	}
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	print_action(philo, "is thinking");
 	while (!has_sim_stopped(philo->table))
 	{
+        usleep(50);
 		take_forks(philo);
 		eat(philo);
 		drop_forks(philo);
@@ -87,8 +99,6 @@ void	*philo_routine(void *arg)
 	}
 	return (NULL);
 }
-
-
 
 
 

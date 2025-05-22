@@ -51,7 +51,6 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&table->sim_stop_lock);
 			i++;
 		}
-
 		if (table->must_eat_count != -1 && full_count == table->nb_philo)
 		{
 			pthread_mutex_lock(&table->sim_stop_lock);

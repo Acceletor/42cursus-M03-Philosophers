@@ -45,3 +45,14 @@ bool	has_sim_stopped(t_table *table)
 	pthread_mutex_unlock(&table->sim_stop_lock);
 	return (result);
 }
+
+void precise_sleep_until(time_t deadline_ms, t_table *table)
+{
+    while (!has_sim_stopped(table))
+    {
+        time_t now = get_time_in_ms();
+        if (now >= deadline_ms)
+            break;
+        usleep(100);
+    }
+}
