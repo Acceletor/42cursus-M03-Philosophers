@@ -6,16 +6,11 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:20:17 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/28 15:58:16 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:07:45 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-//-----------------------------------------------------------------------------
-// 1) Always pick forks in a fixed order to break the circular wait.
-//    Here we compare the pointer addresses.
-//-----------------------------------------------------------------------------
 
 void	take_forks(t_philo *philo)
 {
@@ -34,7 +29,6 @@ void	take_forks(t_philo *philo)
 	pthread_mutex_lock(second);
 	print_action(philo, "has taken a fork");
 }
-
 
 void	eat(t_philo *philo)
 {
@@ -69,7 +63,6 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	// usleep(500);
 	if (philo->table->nb_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
@@ -90,10 +83,3 @@ void	*philo_routine(void *arg)
 	}
 	return (NULL);
 }
-
-
-
-
-
-
-

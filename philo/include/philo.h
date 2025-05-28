@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:49:40 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/07 11:58:57 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:22:34 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ typedef struct s_table
 	int				must_eat_count;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
-    pthread_mutex_t sim_stop_lock;
+	pthread_mutex_t	sim_stop_lock;
 	bool			print_lock_init;
-    bool            sim_stop_lock_init;
+	bool			sim_stop_lock_init;
 	pthread_t		monitor_thread;
 	bool			sim_stop;
 	t_philo			**philos;
@@ -96,28 +96,27 @@ void			free_table(t_table *table);
 void			stop_simulation(t_table *table);
 
 //philosopher.c
-void take_forks(t_philo *philo);
-void eat(t_philo *philo);
-void drop_forks(t_philo *philo);
-void philo_sleep(t_philo *philo);
-void *philo_routine (void *arg);
+void			take_forks(t_philo *philo);
+void			eat(t_philo *philo);
+void			drop_forks(t_philo *philo);
+void			philo_sleep(t_philo *philo);
+void			*philo_routine(void *arg);
 
 //monitor_thread.c
-void *monitor_routine (void *arg);
+void			*monitor_routine(void *arg);
 
 //utils.c
-time_t get_time_in_ms(void);
-void print_action(t_philo *philo, char *msg);
-bool has_sim_stopped(t_table *table);
-void set_sim_stop_flag(t_table *table, bool state);
-void precise_sleep_until(time_t deadline_ms, t_table *table);
-
+time_t			get_time_in_ms(void);
+void			print_action(t_philo *philo, char *msg);
+bool			has_sim_stopped(t_table *table);
+void			precise_sleep_until(time_t deadline_ms, t_table *table);
+void			assign_forks(t_table *table);
 
 //main.c
-time_t get_time_in_ms(void);
-void print_action(t_philo *philo, char *msg);
-bool has_sim_stopped(t_table *table);
-bool start_simulation(t_table *table);
+time_t			get_time_in_ms(void);
+void			print_action(t_philo *philo, char *msg);
+bool			has_sim_stopped(t_table *table);
+bool			start_simulation(t_table *table);
 
 #endif
 

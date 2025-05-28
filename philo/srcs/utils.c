@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:22:32 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/20 17:40:58 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:23:29 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,28 @@ bool	has_sim_stopped(t_table *table)
 	return (result);
 }
 
-void precise_sleep_until(time_t deadline_ms, t_table *table)
+void	precise_sleep_until(time_t deadline_ms, t_table *table)
 {
-    while (!has_sim_stopped(table))
-    {
-        time_t now = get_time_in_ms();
-        if (now >= deadline_ms)
-            break;
-        usleep(100);
-    }
+	time_t	now;
+
+	while (!has_sim_stopped(table))
+	{
+		now = get_time_in_ms();
+		if (now >= deadline_ms)
+			break ;
+		usleep(100);
+	}
+}
+
+void	assign_forks(t_table *table)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		table->philos[i]->left_fork = &table->forks[i];
+		table->philos[i]->right_fork = &table->forks[(i + 1) % table->nb_philo];
+		i++;
+	}
 }

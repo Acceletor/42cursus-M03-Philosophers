@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:49:26 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/20 15:30:51 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:16:58 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,6 @@ bool	create_global_mutex(t_table *table)
 	}
 	table->sim_stop_lock_init = true;
 	return (true);
-}
-
-void	assign_forks(t_table *table)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		table->philos[i]->left_fork = &table->forks[i];
-		table->philos[i]->right_fork = &table->forks[(i + 1) % table->nb_philo];
-		i++;
-	}
 }
 
 t_table	*init_table(int vars[])
