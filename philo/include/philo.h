@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:49:40 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/28 16:22:34 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/10/01 09:02:49 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,3 @@ bool			has_sim_stopped(t_table *table);
 bool			start_simulation(t_table *table);
 
 #endif
-

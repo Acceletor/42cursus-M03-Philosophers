@@ -6,10 +6,9 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:49:19 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/20 15:19:57 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/10/01 09:02:29 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/philo.h"
 
@@ -21,7 +20,6 @@ int	dis_msg(char *str, char *detail, int exit_no)
 		printf(str, STR_PROG_NAME, detail);
 	exit(exit_no);
 }
-
 
 int	unsigned_atoi(char *str)
 {
@@ -40,7 +38,6 @@ int	unsigned_atoi(char *str)
 		dis_msg(STR_ERR_INPUT_DIGIT, NULL, EXIT_FAILURE);
 	return ((int)nb);
 }
-
 
 bool	is_valid_input(int argc, char**argv, int *vars)
 {

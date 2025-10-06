@@ -6,7 +6,7 @@
 /*   By: ksuebtha <ksuebtha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:49:26 by ksuebtha          #+#    #+#             */
-/*   Updated: 2025/05/28 16:16:58 by ksuebtha         ###   ########.fr       */
+/*   Updated: 2025/10/01 09:02:11 by ksuebtha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static t_philo	*alloc_one_philo(t_table *table, unsigned int i)
 	philo->table = table;
 	return (philo);
 }
-
 
 t_philo	**init_philos(t_table *table)
 {
